@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import LikeImage from "../../assets/images/like.png";
 import {
 	Entypo,
@@ -6,29 +6,37 @@ import {
 	FontAwesome5,
 	MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function FeedPost({ post }) {
+	const navigation = useNavigation();
+
 	return (
 		<View style={styles.post}>
 			{/* header */}
-			<View style={styles.header}>
-				<Image
-					source={{
-						uri: post.User.image,
-					}}
-					style={styles.profileImage}
-				/>
-				<View>
-					<Text style={styles.name}>{post?.User.name}</Text>
-					<Text style={styles.subtitle}>{post.createdAt}</Text>
+
+			<Pressable
+				onPress={() => navigation.navigate("Profile", { id: post.postUserId })}
+				style={styles.header}>
+				<View style={styles.header}>
+					<Image
+						source={{
+							uri: post.User.image,
+						}}
+						style={styles.profileImage}
+					/>
+					<View>
+						<Text style={styles.name}>{post?.User.name}</Text>
+						<Text style={styles.subtitle}>{post.createdAt}</Text>
+					</View>
+					<Entypo
+						name="dots-three-horizontal"
+						size={18}
+						color="grey"
+						style={styles.icon}
+					/>
 				</View>
-				<Entypo
-					name="dots-three-horizontal"
-					size={18}
-					color="grey"
-					style={styles.icon}
-				/>
-			</View>
+			</Pressable>
 
 			{/* body */}
 			{post.description && (
